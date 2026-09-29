@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ConnectBD</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f0f2f5;color:#1c1e21}button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+.top{height:62px;background:#fff;position:sticky;top:0;z-index:20;display:flex;align-items:center;padding:0 18px;gap:14px;box-shadow:0 1px 3px #0002}.logo{font-size:27px;font-weight:800;color:#1877f2}.search{width:270px;background:#f0f2f5;border:0;border-radius:22px;padding:10px 15px;outline:0}.nav{display:flex;gap:4px;margin:auto}.nav button{background:#fff;width:65px;height:47px;border-radius:8px;font-size:21px}.nav button:hover,.nav .on{background:#e7f3ff;color:#1877f2}.tools{display:flex;gap:7px}.circle{width:40px;height:40px;border-radius:50%;background:#e4e6eb;font-size:17px;position:relative}.badge{position:absolute;background:#e41e3f;color:#fff;font-size:10px;border-radius:10px;padding:2px 5px;top:0;right:0}
+.wrap{max-width:1250px;margin:auto;display:grid;grid-template-columns:245px 1fr 280px;gap:18px;padding:18px}.left,.right{position:sticky;top:80px;height:max-content}.profile{display:flex;align-items:center;gap:10px;padding:12px}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1877f2,#7b61ff);color:#fff;font-weight:bold;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.menu{width:100%;background:transparent;text-align:left;padding:11px;border-radius:9px;font-weight:600}.menu:hover{background:#dddfe2}.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:15px;box-shadow:0 1px 2px #0001}
+.stories{display:flex;gap:10px;overflow:auto;margin-bottom:15px}.story{min-width:120px;height:185px;border-radius:12px;padding:12px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(#0001,#000a),#1877f2}.story:nth-child(2){background:linear-gradient(#0001,#000a),#8e44ad}.story:nth-child(3){background:linear-gradient(#0001,#000a),#16a085}.story:nth-child(4){background:linear-gradient(#0001,#000a),#e67e22}.plus{width:40px;height:40px;background:#fff;color:#1877f2;border-radius:50%;display:grid;place-items:center;font-size:27px;margin-bottom:8px}
+.row{display:flex;gap:10px;align-items:center}.what{flex:1;background:#f0f2f5;color:#65676b;border-radius:22px;padding:12px 16px;cursor:pointer}.actions{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #ddd;margin-top:12px;padding-top:8px}.actions button{background:#fff;color:#65676b;padding:10px;border-radius:8px}.actions button:hover{background:#f0f2f5}
+.post-head{display:flex;align-items:center;gap:10px}.meta{flex:1}.meta small{display:block;color:#65676b;margin-top:3px}.post-text{white-space:pre-wrap;line-height:1.5;margin:14px 0}.post-media{width:100%;max-height:520px;border-radius:8px;object-fit:cover;background:#000}.stats{display:flex;justify-content:space-between;color:#65676b;font-size:14px;padding:10px 2px}.post-buttons{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #ddd;border-bottom:1px solid #ddd}.post-buttons button{background:#fff;color:#65676b;padding:10px;font-weight:600}.post-buttons button:hover,.liked{background:#e7f3ff!important;color:#1877f2!important}.comment{display:flex;gap:7px;margin-top:10px}.comment input{flex:1;border:0;background:#f0f2f5;border-radius:18px;padding:9px 12px;outline:0}.comment button{background:#1877f2;color:#fff;border-radius:18px;padding:0 13px}.comments div{background:#f0f2f5;border-radius:14px;padding:8px 12px;margin-top:6px;width:max-content;max-width:90%;font-size:14px}
+.title{display:flex;justify-content:space-between;margin-bottom:12px}.friend{display:flex;align-items:center;gap:9px;margin:12px 0}.friend>div:nth-child(2){flex:1}.friend small{display:block;color:#65676b}.add{background:#e7f3ff;color:#1877f2;padding:7px 10px;border-radius:6px;font-weight:bold}.trend{padding:9px 0;border-top:1px solid #ddd}.trend small{color:#65676b}
+.modal{position:fixed;inset:0;background:#0008;z-index:50;display:grid;place-items:center;padding:15px}.modalbox{background:#fff;border-radius:12px;width:min(560px,100%);padding:18px}.modalhead{display:flex;justify-content:space-between;align-items:center}.close{width:35px;height:35px;border-radius:50%;background:#eee;font-size:20px}.modal textarea{width:100%;border:0;background:#f0f2f5;border-radius:8px;padding:12px;resize:vertical;outline:0;margin:12px 0}.primary{background:#1877f2;color:#fff;padding:11px 20px;border-radius:7px;font-weight:bold;width:100%}.secondary{background:#e7f3ff;color:#1877f2;padding:10px 15px;border-radius:7px;font-weight:bold}.hidden{display:none!important}.file-label{display:block;background:#f0f2f5;padding:12px;border-radius:8px;margin-bottom:12px;text-align:center;cursor:pointer}.file-label input{display:none}.preview{max-width:100%;max-height:260px;border-radius:8px;display:block;margin:8px auto}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:11px 17px;border-radius:8px;z-index:80;display:none}.toast.show{display:block}
+@media(max-width:950px){.wrap{grid-template-columns:70px 1fr}.right{display:none}.left .profile span,.left .menu span{display:none}.menu{text-align:center;font-size:21px}.profile{justify-content:center}}@media(max-width:650px){.top{padding:0 8px}.logo{font-size:22px}.search{width:45px}.nav button{width:45px}.wrap{display:block;padding:8px}.left{display:none}.story{min-width:105px;height:160px}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="logo">ConnectBD</div><input id="search" class="search" placeholder="🔍 Search">
+<nav class="nav"><button class="on" onclick="home()">⌂</button><button onclick="toast('Friends opened')">👥</button><button onclick="toast('Watch coming soon')">▶️</button><button onclick="toast('Marketplace coming soon')">🛒</button></nav>
+<div class="tools"><button class="circle" onclick="toast('Messenger coming soon')">💬</button><button class="circle" onclick="toast('3 new notifications')">🔔<span class="badge">3</span></button><button class="circle" onclick="accountModal()">👤</button></div>
+</header>
+<div class="wrap">
+<aside class="left">
+<div class="profile"><div class="avatar" id="sideAvatar">FF</div><span><b id="sideName">Fahim Faisal</b><br><small id="sideUser">@fahim</small></span></div>
+<button class="menu" onclick="home()">🏠 <span>Home</span></button><button class="menu" onclick="toast('Friends opened')">👥 <span>Friends</span></button><button class="menu" onclick="toast('Groups coming soon')">👨‍👩‍👧 <span>Groups</span></button><button class="menu" onclick="toast('Saved posts opened')">🔖 <span>Saved</span></button><button class="menu" onclick="accountModal()">⚙️ <span>Account</span></button>
+</aside>
+<main>
+<div class="stories"><div class="story"><div class="plus">+</div><b>Create story</b></div><div class="story"><b>🌄<br><br>Rafi</b></div><div class="story"><b>📚<br><br>Nabila</b></div><div class="story"><b>✨<br><br>Sumaiya</b></div></div>
+<div class="card"><div class="row"><div class="avatar" id="composerAvatar">FF</div><div class="what" onclick="openPost()">What's on your mind?</div></div><div class="actions"><button onclick="openPost()">🎥 Live video</button><button onclick="openPost()">🖼️ Photo/video</button><button onclick="openPost()">😊 Feeling</button></div></div>
+<div id="posts"></div>
+</main>
+<aside class="right">
+<div class="card"><div class="title"><b>People you may know</b><a href="#">See all</a></div>
+<div class="friend"><div class="avatar">RA</div><div><b>Rahim Ahmed</b><small>12 mutual friends</small></div><button class="add" onclick="this.textContent='✓ Added'">Add</button></div>
+<div class="friend"><div class="avatar">NS</div><div><b>Nusrat S.</b><small>8 mutual friends</small></div><button class="add" onclick="this.textContent='✓ Added'">Add</button></div>
+</div>
+<div class="card"><div class="title"><b>Trending</b></div><div class="trend"><small>Technology</small><br><b>#WebDevelopment</b></div><div class="trend"><small>Education</small><br><b>#HSC2028</b></div></div>
+</aside></div>
+
+<div id="postModal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h2>Create post</h2><button class="close" onclick="closePost()">×</button></div>
+<textarea id="postText" rows="5" placeholder="What's on your mind?"></textarea>
+<label class="file-label">📹 Add photo or video<input id="mediaInput" type="file" accept="image/*,video/*"></label><div id="mediaPreview"></div>
+<button class="primary" onclick="publish()">Post</button></div></div>
+
+<div id="accountModal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h2 id="accountTitle">Create account</h2><button class="close" onclick="closeAccount()">×</button></div>
+<div id="accountForm"><input id="name" placeholder="Full name" style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:7px"><input id="username" placeholder="Username" style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:7px"><input id="password" type="password" placeholder="Password" style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:7px"><label class="file-label">🖼️ Profile photo<input id="avatarInput" type="file" accept="image/*"></label><div id="avatarPreview"></div><button class="primary" onclick="createAccount()">Create account</button><p style="text-align:center">Already have an account? <button class="secondary" onclick="showLogin()">Login</button></p></div>
+<div id="loginForm" class="hidden"><input id="loginUser" placeholder="Username" style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:7px"><input id="loginPass" type="password" placeholder="Password" style="width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:7px"><button class="primary" onclick="login()">Login</button><p style="text-align:center">New here? <button class="secondary" onclick="showSignup()">Create account</button></p></div>
+</div></div>
+<div id="toast" class="toast"></div>
+<script>
+const seed=[{id:1,name:"Fahim Faisal",initial:"FF",time:"Just now",text:"Welcome to ConnectBD! 🚀\\nএখন account তৈরি করে নিজের নামে post ও video upload করা যাবে।",likes:12,comments:[],media:"",type:""}];
+let posts=JSON.parse(localStorage.getItem("cbd_posts")||"null")||seed;
+let account=JSON.parse(localStorage.getItem("cbd_account")||"null");
+let selectedMedia="",selectedType="";
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function save(){localStorage.setItem("cbd_posts",JSON.stringify(posts))}
+function render(q=""){q=q.toLowerCase();let arr=posts.filter(p=>(p.name+" "+p.text).toLowerCase().includes(q));document.getElementById("posts").innerHTML=arr.map(p=>`<article class="card" data-id="${p.id}"><div class="post-head"><div class="avatar">${esc(p.initial)}</div><div class="meta"><b>${esc(p.name)}</b><small>${p.time} · 🌐</small></div><button onclick="toast('More options')">•••</button></div><div class="post-text">${esc(p.text)}</div>${p.media?(p.type==="video"?`<video class="post-media" controls src="${p.media}"></video>`:`<img class="post-media" src="${p.media}">`):""}<div class="stats"><span>👍 ❤️ ${p.likes}</span><span>${p.comments.length} comments</span></div><div class="post-buttons"><button class="${p.liked?'liked':''}" onclick="like(${p.id})">👍 Like</button><button onclick="focusComment(${p.id})">💬 Comment</button><button onclick="share()">↗ Share</button></div><div class="comment"><input id="c${p.id}" placeholder="Write a comment..."><button onclick="comment(${p.id})">Send</button></div><div class="comments">${p.comments.map(c=>`<div>💬 ${esc(c)}</div>`).join("")}</div></article>`).join("")}
+function like(id){let p=posts.find(x=>x.id===id);p.liked=!p.liked;p.likes+=p.liked?1:-1;save();render(search.value)}
+function comment(id){let i=document.getElementById("c"+id),v=i.value.trim();if(!v)return;posts.find(x=>x.id===id).comments.push(v);save();render(search.value)}
+function focusComment(id){document.getElementById("c"+id)?.focus()}
+function share(){navigator.clipboard?.writeText(location.href);toast("Post link copied")}
+function openPost(){postModal.classList.remove("hidden")}
+function closePost(){postModal.classList.add("hidden");postText.value="";mediaInput.value="";mediaPreview.innerHTML="";selectedMedia=""}
+mediaInput.onchange=()=>{let f=mediaInput.files[0];if(!f)return;if(f.size>15*1024*1024){toast("Video/image must be under 15MB");mediaInput.value="";return}selectedType=f.type.startsWith("video")?"video":"image";let r=new FileReader();r.onload=()=>{selectedMedia=r.result;mediaPreview.innerHTML=selectedType==="video"?`<video class="preview" controls src="${selectedMedia}"></video>`:`<img class="preview" src="${selectedMedia}">`};r.readAsDataURL(f)}
+function publish(){let t=postText.value.trim();if(!t&&!selectedMedia)return toast("Write something or select a video/photo");let a=account||{name:"Fahim Faisal",username:"fahim"};posts.unshift({id:Date.now(),name:a.name,initial:(a.name||"U").slice(0,2).toUpperCase(),time:"Just now",text:t,likes:0,comments:[],media:selectedMedia,type:selectedType});save();closePost();render();toast("Post published 🎉")}
+function accountModal(){accountModalEl.classList.remove("hidden");if(account){accountTitle.textContent="My account";document.getElementById("accountForm").innerHTML=`<h3>${esc(account.name)}</h3><p>@${esc(account.username)}</p><button class="secondary" onclick="logout()">Log out</button>`}}
+const accountModalEl=document.getElementById("accountModal");
+function showLogin(){accountForm.classList.add("hidden");loginForm.classList.remove("hidden");accountTitle.textContent="Login"}
+function showSignup(){loginForm.classList.add("hidden");accountForm.classList.remove("hidden");accountTitle.textContent="Create account"}
+function closeAccount(){accountModalEl.classList.add("hidden")}
+function createAccount(){let n=name.value.trim(),u=username.value.trim(),p=password.value;if(!n||!u||!p)return toast("সব তথ্য পূরণ করো");account={name:n,username:u,password:p};localStorage.setItem("cbd_account",JSON.stringify(account));closeAccount();updateProfile();toast("Account created 🎉")}
+function login(){let a=JSON.parse(localStorage.getItem("cbd_account")||"null");if(a&&loginUser.value===a.username&&loginPass.value===a.password){account=a;updateProfile();closeAccount();toast("Login successful");}else toast("Username বা password ভুল")}
+function logout(){account=null;localStorage.removeItem("cbd_account");location.reload()}
+function updateProfile(){if(!account)return;sideName.textContent=account.name;sideUser.textContent="@"+account.username;let i=(account.name||"U").slice(0,2).toUpperCase();sideAvatar.textContent=i;composerAvatar.textContent=i}
+avatarInput.onchange=()=>{let f=avatarInput.files[0];if(!f)return;let r=new FileReader();r.onload=()=>avatarPreview.innerHTML=`<img class="preview" src="${r.result}">`;r.readAsDataURL(f)}
+function toast(s){let x=document.getElementById("toast");x.textContent=s;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1700)}
+function home(){scrollTo({top:0,behavior:"smooth"})}
+search.oninput=()=>render(search.value)
+updateProfile();render();
+</script></body></html>
