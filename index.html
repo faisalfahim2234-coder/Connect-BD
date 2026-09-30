@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PixelForge - Photo Editor</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#15171b;
+ color:#eee;
+ font-family:Arial,sans-serif;
+ overflow:hidden
+}
+
+header{
+ height:55px;
+ background:#202329;
+ border-bottom:1px solid #444;
+ display:flex;
+ align-items:center;
+ gap:7px;
+ padding:7px
+}
+
+.logo{
+ color:#62a8ff;
+ font-size:20px;
+ font-weight:bold;
+ margin:0 12px
+}
+
+button,select,input{
+ font:inherit
+}
+
+button{
+ background:#2d3239;
+ color:white;
+ border:1px solid #4b515a;
+ border-radius:6px;
+ padding:7px 11px;
+ cursor:pointer
+}
+
+button:hover{
+ background:#3b424b
+}
+
+.workspace{
+ height:calc(100vh - 55px);
+ display:grid;
+ grid-template-columns:58px 1fr 290px
+}
+
+.tools{
+ background:#202329;
+ border-right:1px solid #444;
+ padding:7px;
+ display:flex;
+ flex-direction:column;
+ gap:6px
+}
+
+.tool{
+ width:44px;
+ height:40px;
+ padding:0;
+ font-size:18px
+}
+
+.tool.active{
+ background:#1769c2
+}
+
+.stage{
+ position:relative;
+ overflow:auto;
+ background:#0e1013;
+ display:flex;
+ justify-content:center;
+ align-items:center
+}
+
+#canvasBox{
+ box-shadow:0 10px 40px #000;
+ background:white
+}
+
+canvas{
+ display:block
+}
+
+.sidebar{
+ background:#202329;
+ border-left:1px solid #444;
+ overflow:auto;
+ padding:10px
+}
+
+.panel{
+ border:1px solid #40454d;
+ border-radius:7px;
+ margin-bottom:10px;
+ overflow:hidden
+}
+
+.title{
+ background:#2b3037;
+ padding:8px;
+ font-weight:bold
+}
+
+.content{
+ padding:9px
+}
+
+.row{
+ display:flex;
+ align-items:center;
+ gap:6px;
+ margin:7px 0
+}
+
+.row label{
+ width:85px;
+ color:#bbb;
+ font-size:13px
+}
+
+.row input[type=range]{
+ flex:1
+}
+
+input[type=color]{
+ width:42px;
+ height:32px
+}
+
+input[type=number]{
+ width:70px;
+ background:#181a1e;
+ color:white;
+ border:1px solid #444;
+ padding:5px
+}
+
+select{
+ background:#181a1e;
+ color:white;
+ border:1px solid #444;
+ padding:6px;
+ width:100%
+}
+
+.layer{
+ display:flex;
+ gap:7px;
+ padding:8px;
+ border-bottom:1px solid #3b3f45;
+ cursor:pointer
+}
+
+.layer.selected{
+ background:#24568a
+}
+
+.layerName{
+ flex:1;
+ overflow:hidden;
+ white-space:nowrap
+}
+
+.spacer{
+ flex:1
+}
+
+#file{
+ display:none
+}
+
+@media(max-width:800px){
+ .sidebar{display:none}
+ .workspace{grid-template-columns:52px 1fr}
+ .tool{width:38px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">PixelForge</div>
+
+<button onclick="newProject()">New</button>
+
+<button onclick="document.getElementById('file').click()">
+Open
+</button>
+
+<button onclick="downloadImage('png')">
+PNG
+</button>
+
+<button onclick="downloadImage('jpeg')">
+JPG
+</button>
+
+<button onclick="undo()">↶</button>
+<button onclick="redo()">↷</button>
+
+<div class="spacer"></div>
+
+<button onclick="fitCanvas()">Fit</button>
+
+</header>
+
+<input id="file" type="file" accept="image/*">
+
+<div class="workspace">
+
+<!-- TOOLS -->
+
+<div class="tools">
+
+<button class="tool active" onclick="setTool('move',this)">✥</button>
+
+<button class="tool" onclick="setTool('brush',this)">🖌</button>
+
+<button class="tool" onclick="setTool('eraser',this)">⌫</button>
+
+<button class="tool" onclick="setTool('line',this)">╱</button>
+
+<button class="tool" onclick="setTool('rect',this)">□</button>
+
+<button class="tool" onclick="setTool('circle',this)">○</button>
+
+<button class="tool" onclick="setTool('text',this)">T</button>
+
+<button class="tool" onclick="setTool('crop',this)">▣</button>
+
+<button class="tool" onclick="setTool('picker',this)">◉</button>
+
+</div>
+
+
+<!-- CANVAS -->
+
+<div class="stage" id="stage">
+
+<div id="canvasBox">
+
+<canvas id="canvas" width="1000" height="650"></canvas>
+
+</div>
+
+</div>
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="panel">
+
+<div class="title">
+Tool Options
+</div>
+
+<div class="content">
+
+<div class="row">
+<label>Color</label>
+<input id="color" type="color" value="#111111">
+</div>
+
+<div class="row">
+<label>Brush</label>
+<input id="size" type="range" min="1" max="120" value="
